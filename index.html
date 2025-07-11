@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Guide: SvcHostSplitThresholdInKB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 
+        Chosen Palette: Warm Neutrals (Slate, Indigo)
+        Application Structure Plan: A task-oriented SPA featuring an interactive calculator at the top for immediate utility. Below the calculator, a tabbed interface organizes the detailed information from the source report into logical sections: "Why This Matters" (combining core concepts with pros/cons), "Is This For You?" (target audience), "How-To Guide" (step-by-step procedure), and "Reference Tables". This structure prioritizes the user's primary goal (getting the value for their RAM) while making the extensive background information easily digestible and accessible without overwhelming them with a long scroll.
+        Visualization & Content Choices: The main interactive element is a RAM-to-Registry Value Calculator (Vanilla JS), which directly addresses the user's need. The rest of the report's content is presented using structured HTML (lists, tables) within a tabbed layout (JS-driven) to organize information logically. No charts are needed as the source content is procedural and informational, not statistical data requiring visualization. This design turns a static document into an actionable utility.
+        CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .tab-button.active {
+            border-color: #4f46e5;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="max-w-5xl mx-auto p-4 sm:p-6 md:p-8">
+        
+        <header class="text-center mb-8 md:mb-12">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900">⚙️ SvcHost Split Threshold Guide</h1>
+            <p class="mt-3 text-lg text-slate-600 max-w-3xl mx-auto">An interactive tool to calculate the optimal `SvcHostSplitThresholdInKB` value for enhancing Windows stability.</p>
+        </header>
+
+        <main>
+            <!-- Calculator Section -->
+            <section id="calculator" class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-slate-200 mb-8">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">Registry Value Calculator</h2>
+                <p class="text-slate-600 mb-6">Enter your system's RAM amount to get the precise registry value.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                    <div class="md:col-span-1">
+                        <label for="ramInput" class="block text-sm font-medium text-slate-700 mb-2">Your System RAM (in GB):</label>
+                        <input type="number" id="ramInput" placeholder="e.g., 16" class="w-full p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                    </div>
+
+                    <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <h3 class="text-sm font-semibold text-slate-600">DECIMAL Value</h3>
+                            <div id="decimalValue" class="text-2xl font-bold text-indigo-600 mt-2 break-all">-</div>
+                            <button onclick="copyToClipboard('decimalValue')" class="mt-3 text-sm font-medium text-indigo-600 hover:text-indigo-800 transition">Copy Value</button>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <h3 class="text-sm font-semibold text-slate-600">HEXADECIMAL Value</h3>
+                            <div id="hexValue" class="text-2xl font-bold text-indigo-600 mt-2 break-all">-</div>
+                             <button onclick="copyToClipboard('hexValue')" class="mt-3 text-sm font-medium text-indigo-600 hover:text-indigo-800 transition">Copy Value</button>
+                        </div>
+                    </div>
+                </div>
+                 <div id="copy-feedback" class="text-center text-sm text-green-600 font-medium mt-4 h-5"></div>
+            </section>
+
+            <!-- Information Section -->
+            <section class="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-slate-200">
+                <div class="border-b border-slate-200 mb-6">
+                    <nav class="-mb-px flex space-x-4 sm:space-x-8" aria-label="Tabs">
+                        <button onclick="changeTab(event, 'why')" class="tab-button active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700">
+                            Why This Matters
+                        </button>
+                        <button onclick="changeTab(event, 'who')" class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700">
+                            Is This For You?
+                        </button>
+                        <button onclick="changeTab(event, 'how')" class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700">
+                            How-To Guide
+                        </button>
+                        <button onclick="changeTab(event, 'tables')" class="tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700">
+                            Reference Tables
+                        </button>
+                    </nav>
+                </div>
+
+                <div class="prose max-w-none">
+                    <!-- Tab Content: Why -->
+                    <div id="why" class="tab-content active">
+                        <h2>🚀 The `svchost.exe` Deep Dive</h2>
+                        <p><code>svchost.exe</code> (Service Host) is a core Windows process that hosts multiple Windows services to conserve memory. While crucial on older PCs, this grouping can cause stability issues on modern systems. If one service crashes, it can take down the entire group.</p>
+                        <p>By modifying the <code>SvcHostSplitThresholdInKB</code> registry value, you force Windows to run each service in its own isolated process, dramatically increasing system stability and making it easier to identify resource-hungry services.</p>
+                        
+                        <h3>🤔 Pros and Cons of This Tweak</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 not-prose">
+                            <div class="border border-green-200 bg-green-50 rounded-lg p-4">
+                                <h4 class="font-semibold text-green-800">✅ Advantages</h4>
+                                <ul class="mt-2 space-y-2 text-sm text-green-700 list-disc list-inside">
+                                    <li><strong>Increased Stability:</strong> A single service failure won't crash others.</li>
+                                    <li><strong>Improved Monitoring:</strong> Easily see resource usage per service in Task Manager.</li>
+                                    <li><strong>Easier Troubleshooting:</strong> Quickly isolate problematic services.</li>
+                                </ul>
+                            </div>
+                            <div class="border border-red-200 bg-red-50 rounded-lg p-4">
+                                <h4 class="font-semibold text-red-800">❌ Disadvantages</h4>
+                                <ul class="mt-2 space-y-2 text-sm text-red-700 list-disc list-inside">
+                                    <li><strong>Slightly Higher RAM Usage:</strong> Negligible on modern systems (8GB+).</li>
+                                    <li><strong>Resets After Updates:</strong> May need to be reapplied after major Windows updates.</li>
+                                    <li><strong>Requires Registry Editing:</strong> Can be daunting for novice users.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Content: Who -->
+                    <div id="who" class="tab-content">
+                        <h2>🎯 Who Should Use This Tweak?</h2>
+                        <p>This optimization is highly recommended for users who prioritize system stability and control. You'll see the most benefit if you are a:</p>
+                        <ul>
+                            <li><strong>Power User or Enthusiast:</strong> Anyone who loves fine-tuning their system for maximum performance and reliability.</li>
+                            <li><strong>System Administrator or IT Professional:</strong> Essential for ensuring service uptime and stability on workstations and servers.</li>
+                            <li><strong>Gamer:</strong> Prevents a random background service from crashing critical processes during a game.</li>
+                            <li><strong>Developer:</strong> Helps create a stable, isolated environment for development and testing.</li>
+                            <li><strong>Troubleshooter:</strong> A key step when diagnosing system slowdowns or crashes related to Windows services.</li>
+                        </ul>
+                        <blockquote>
+                            <p><strong>⚠️ Who should avoid this?</strong> Casual users not experiencing instability and those on very low-RAM systems (< 4GB) where memory conservation is still a factor.</p>
+                        </blockquote>
+                    </div>
+
+                    <!-- Tab Content: How -->
+                    <div id="how" class="tab-content">
+                        <h2>🛠️ The Step-by-Step "Military-Grade" Procedure</h2>
+                        <p>Follow these steps precisely. The recommended method is to use the calculator above to find your exact value and enter it as a Decimal.</p>
+                        <ol>
+                            <li>Press <strong>Win + R</strong> to open the Run dialog, type <code>regedit</code>, and press Enter to open the Registry Editor.</li>
+                            <li>In the address bar at the top, paste the following path and press Enter: <br><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control</code></li>
+                            <li>In the right-hand pane, look for the value named <code>SvcHostSplitThresholdInKB</code>.</li>
+                            <li>If it doesn't exist, right-click on the empty white space, select <strong>New → DWORD (32-bit) Value</strong>, and name it exactly <code>SvcHostSplitThresholdInKB</code>.</li>
+                            <li>Double-click the new value to open it.</li>
+                            <li>Ensure the <strong>Decimal</strong> base option is selected.</li>
+                            <li>Enter the precise Decimal value from the calculator at the top of this page.</li>
+                            <li>Click <strong>OK</strong> and close the Registry Editor.</li>
+                            <li><strong>Restart your computer.</strong> This is mandatory for the change to take effect.</li>
+                        </ol>
+                    </div>
+
+                    <!-- Tab Content: Tables -->
+                    <div id="tables" class="tab-content">
+                        <h2>📊 Configuration & Conversion Tables</h2>
+                        <p>Use these tables for quick reference. The "Precise Decimal" table is the most accurate for manual calculation.</p>
+                        
+                        <h3>Precise Decimal Values (Recommended)</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead class="bg-slate-50">
+                                    <tr><th class="p-2">System RAM</th><th class="p-2">Final Decimal Value</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200">
+                                    <tr><td class="p-2">8 GB</td><td class="p-2 font-mono">8388608</td></tr>
+                                    <tr><td class="p-2">12 GB</td><td class="p-2 font-mono">12582912</td></tr>
+                                    <tr><td class="p-2">16 GB</td><td class="p-2 font-mono">16777216</td></tr>
+                                    <tr><td class="p-2">24 GB</td><td class="p-2 font-mono">25165824</td></tr>
+                                    <tr><td class="p-2">28 GB</td><td class="p-2 font-mono">29360128</td></tr>
+                                    <tr><td class="p-2">32 GB</td><td class="p-2 font-mono">33554432</td></tr>
+                                    <tr><td class="p-2">64 GB</td><td class="p-2 font-mono">67108864</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h3 class="mt-8">Corresponding Hexadecimal Values</h3>
+                        <div class="overflow-x-auto">
+                           <table class="w-full text-left">
+                                <thead class="bg-slate-50">
+                                    <tr><th class="p-2">System RAM</th><th class="p-2">Final Hexadecimal Value</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-200">
+                                    <tr><td class="p-2">8 GB</td><td class="p-2 font-mono">800000</td></tr>
+                                    <tr><td class="p-2">12 GB</td><td class="p-2 font-mono">C00000</td></tr>
+                                    <tr><td class="p-2">16 GB</td><td class="p-2 font-mono">1000000</td></tr>
+                                    <tr><td class="p-2">24 GB</td><td class="p-2 font-mono">1800000</td></tr>
+                                    <tr><td class="p-2">28 GB</td><td class="p-2 font-mono">1C00000</td></tr>
+                                    <tr><td class="p-2">32 GB</td><td class="p-2 font-mono">2000000</td></tr>
+                                    <tr><td class="p-2">64 GB</td><td class="p-2 font-mono">4000000</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer class="text-center mt-12">
+            <p class="text-sm text-slate-500">Built as an interactive guide based on community knowledge.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const ramInput = document.getElementById('ramInput');
+        const decimalValueDiv = document.getElementById('decimalValue');
+        const hexValueDiv = document.getElementById('hexValue');
+        const copyFeedback = document.getElementById('copy-feedback');
+
+        ramInput.addEventListener('input', () => {
+            const ramInGb = parseFloat(ramInput.value);
+
+            if (ramInGb > 0) {
+                const ramInKb = ramInGb * 1024 * 1024;
+                decimalValueDiv.textContent = ramInKb.toLocaleString('en-US').replace(/,/g, '');
+                hexValueDiv.textContent = ramInKb.toString(16).toUpperCase();
+            } else {
+                decimalValueDiv.textContent = '-';
+                hexValueDiv.textContent = '-';
+            }
+        });
+        
+        function changeTab(event, tabId) {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => button.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            event.currentTarget.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function copyToClipboard(elementId) {
+            const textToCopy = document.getElementById(elementId).textContent;
+             if (textToCopy && textToCopy !== '-') {
+                const tempInput = document.createElement('input');
+                tempInput.value = textToCopy;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                
+                copyFeedback.textContent = `Copied "${textToCopy}" to clipboard!`;
+                setTimeout(() => {
+                    copyFeedback.textContent = '';
+                }, 2000);
+            } else {
+                 copyFeedback.textContent = 'Please enter a RAM value first.';
+                 setTimeout(() => {
+                    copyFeedback.textContent = '';
+                }, 2000);
+            }
+        }
+        
+    </script>
+</body>
+</html>
