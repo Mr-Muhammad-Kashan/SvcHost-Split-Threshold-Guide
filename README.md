@@ -1,124 +1,129 @@
-# ⚙️ Interactive Guide & Calculator for SvcHostSplitThresholdInKB 
-<br>
-<br>
+# ⚙️ Interactive Guide & Calculator for `SvcHostSplitThresholdInKB`
 
-## -- ➤ LIVE APPLICATION LINK 🚀 [Live-Demo](https://mr-muhammad-kashan.github.io/SvcHost-Split-Threshold-Guide/)
+---
 
-
-<br>
-<br>
+## ➤ 🚀 [Live Demo](https://mr-muhammad-kashan.github.io/SvcHost-Split-Threshold-Guide/)
 
 Click the link above to access the interactive guide and calculator.
-An interactive, single-page web application designed to be the ultimate guide for understanding and configuring the SvcHostSplitThresholdInKB value in the Windows Registry. This tool demystifies the process of enhancing system stability by isolating Windows services.
 
-<br>
+An interactive, single-page web application designed to be the ultimate guide for understanding and configuring the `SvcHostSplitThresholdInKB` value in the Windows Registry.  
+This tool demystifies the process of enhancing system stability by isolating Windows services.
 
-(A preview of the interactive guide)
+---
 
-Table of Contents
-The Problem: Service Grouping & Instability
+## 🧭 Table of Contents
 
-The Solution: Service Isolation
+- ❔ [The Problem: Service Grouping & Instability](#-the-problem-service-grouping--instability)
+- ✅ [The Solution: Service Isolation](#-the-solution-service-isolation)
+- ✨ [Key Features](#-key-features)
+- 🎯 [Who Is This For?](#-who-is-this-for)
+- 🚀 [How to Use](#-how-to-use)
+- 🛠️ [Technical Details](#-technical-details)
+- ⚠️ [Disclaimer](#-disclaimer)
+- 🤝 [Contributing](#-contributing)
 
-✨ Key Features
+---
 
-🎯 Who Is This For?
+## ❔ The Problem: Service Grouping & Instability
 
-🚀 How to Use
+In Windows, the `svchost.exe` (Service Host) process is used to group multiple services into a single process.  
+While this was designed to save memory on older systems, on modern PCs it can lead to stability issues.  
 
-🛠️ Technical Details
+If one service in a group crashes, it can terminate the entire `svchost.exe` process, taking down all other unrelated services hosted within it. This can cause system-wide errors and instability.
 
-⚠️ Disclaimer
+---
 
-🤝 Contributing
+## ✅ The Solution: Service Isolation
 
-📜 License
+This tool provides an interactive guide and calculator for the `SvcHostSplitThresholdInKB` registry value.  
+By setting this value to a number higher than your total system RAM, you force Windows to run each eligible service in its own separate, isolated `svchost.exe` process.
 
-❔ The Problem: Service Grouping & Instability
-In Windows, the svchost.exe (Service Host) process is used to group multiple services into a single process. While this was designed to save memory on older systems, on modern PCs it can lead to stability issues. If one service in a group crashes, it can terminate the entire svchost.exe process, taking down all other unrelated services hosted within it. This can cause system-wide errors and instability.
+### 🧠 Benefits
 
-✅ The Solution: Service Isolation
-This tool provides an interactive guide and calculator for the SvcHostSplitThresholdInKB registry value. By setting this value to a number higher than your total system RAM, you force Windows to run each eligible service in its own separate, isolated svchost.exe process.
+- **Enhanced Stability**: A crash in one service no longer affects others.
+- **Better Transparency**: Easily see individual resource usage in Task Manager.
+- **Easier Troubleshooting**: Quickly identify and manage problematic services.
 
-This leads to:
+---
 
-Enhanced Stability: A crash in one service no longer affects others.
+## ✨ Key Features
 
-Better Transparency: You can easily see the individual resource usage of each service in the Task Manager.
+- 🔢 **Interactive Value Calculator**: Instantly calculate the registry value based on your system RAM (GB).
+- 🧮 **Dual Value Display**: View both **Decimal** and **Hexadecimal** outputs.
+- 📋 **One-Click Copy**: Copy generated values to clipboard instantly.
+- 📚 **In-Depth Knowledge Base**: Tabbed interface covering:
+  - Core concepts and benefits
+  - Pros and cons
+  - Who should apply this tweak
+  - A military-grade, step-by-step procedure
+- 📊 **Reference Tables**: Look-up values for common RAM sizes.
+- 📱 **Responsive Design**: Clean UI works on desktop, tablet, and mobile.
+- 💾 **Self-Contained**: A single HTML file, no dependencies or backend.
 
-Easier Troubleshooting: Problematic services can be identified and managed with ease.
+---
 
-✨ Key Features
-Interactive Value Calculator: Instantly calculate the precise registry value based on your system's RAM in GB.
+## 🎯 Who Is This For?
 
-Dual Value Display: Automatically provides both the Decimal and Hexadecimal values required for the registry.
+This tool is ideal for:
 
-One-Click Copy: Easily copy the generated values to your clipboard to prevent typos.
+- 💻 Power Users & PC Enthusiasts
+- 🎮 Gamers seeking max stability
+- 🛡️ System Administrators & IT Pros
+- 👨‍💻 Developers needing isolated environments
+- 🧪 Troubleshooters investigating high `svchost.exe` usage
 
-In-Depth Knowledge Base: A clean, tabbed interface provides comprehensive information on:
+---
 
-The core concepts and benefits.
+## 🚀 How to Use
 
-The pros and cons of the tweak.
+### 🔗 Online
 
-A clear guide on who should (and shouldn't) apply this change.
+Just visit the [Live Application](https://mr-muhammad-kashan.github.io/SvcHost-Split-Threshold-Guide/).
 
-A step-by-step "military-grade" procedure for applying the value.
+### 💻 Locally
 
-Reference Tables: Quick lookup tables for common RAM configurations.
+1. Download the `index.html` file from this repository
+2. Open it in any modern web browser (Chrome, Firefox, Edge, etc.)
 
-Fully Responsive: A clean and modern UI that works flawlessly on desktop, tablet, and mobile devices.
+---
 
-Self-Contained: The entire application is a single HTML file with no dependencies, making it extremely portable.
+## 🛠️ Technical Details
 
-🎯 Who Is This For?
-This tool is designed for:
+- **Frontend**: HTML5
+- **Styling**: Tailwind CSS (via CDN)
+- **Logic**: Vanilla JavaScript
+- **Architecture**: A single, self-contained `index.html` file (no server required)
 
-Power Users & PC Enthusiasts
+---
 
-Gamers seeking maximum system stability.
+## ⚠️ Disclaimer
 
-System Administrators & IT Professionals
+Editing the Windows Registry can be risky.  
+While this guide outlines a well-documented and safe optimization, always proceed with caution.
 
-Developers who need a stable and isolated service environment.
+> **Backup your system** or create a **System Restore Point** before making registry changes.  
+> The author and contributors are not responsible for any damage or data loss.
 
-Anyone troubleshooting system instability or high svchost.exe resource usage.
+**Use this guide at your own risk.**
 
-🚀 How to Use
-Online
-Simply visit the live application link at the top of this document.
+---
 
-Locally
-Download the index.html file from this repository.
+## 🤝 Contributing
 
-Open the file in any modern web browser (like Chrome, Firefox, or Edge).
+We welcome contributions!  
+Feel free to fork the project and submit pull requests.
 
-🛠️ Technical Details
-Frontend: HTML5
+### 📌 Steps:
 
-Styling: Tailwind CSS (via CDN)
+```bash
+# 1. Fork the repository
+# 2. Create your feature branch
+git checkout -b feature/AmazingFeature
 
-Logic: Vanilla JavaScript (no frameworks or libraries)
+# 3. Commit your changes
+git commit -m "Add some AmazingFeature"
 
-Architecture: A single, self-contained index.html file. No build process or server is required.
+# 4. Push to the branch
+git push origin feature/AmazingFeature
 
-⚠️ Disclaimer
-Editing the Windows Registry can be risky. While the procedure outlined in this guide is a well-documented and generally safe optimization for modern systems, you should always proceed with caution.
-
-It is highly recommended that you create a System Restore Point or a full system backup before making any changes to the registry. The author and contributors of this project are not responsible for any damage or data loss that may occur. Use this tool and guide at your own risk.
-
-🤝 Contributing
-Contributions, issues, and feature requests are welcome! Feel free to check the issues page.
-
-Fork the Project
-
-Create your Feature Branch (git checkout -b feature/AmazingFeature)
-
-Commit your Changes (git commit -m 'Add some AmazingFeature')
-
-Push to the Branch (git push origin feature/AmazingFeature)
-
-Open a Pull Request
-
-📜 License
-This project is licensed under the MIT License - see the LICENSE.md file for details.
+# 5. Open a Pull Request
