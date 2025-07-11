@@ -1,5 +1,7 @@
-⚙️ Interactive Guide & Calculator for SvcHostSplitThresholdInKB
-➤ LIVE APPLICATION LINK 🚀
+# ⚙️ Interactive Guide & Calculator for SvcHostSplitThresholdInKB 
+<br>
+## -- ➤ LIVE APPLICATION LINK 🚀<br>
+
 Click the link above to access the interactive guide and calculator.
 An interactive, single-page web application designed to be the ultimate guide for understanding and configuring the SvcHostSplitThresholdInKB value in the Windows Registry. This tool demystifies the process of enhancing system stability by isolating Windows services.
 
